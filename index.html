@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dhruv Mehta | AI / Data / Cloud Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #0f0f18;
+    --bg3: #13131e;
+    --border: rgba(255,255,255,0.07);
+    --accent: #7c6af7;
+    --accent2: #a78bfa;
+    --accent-glow: rgba(124,106,247,0.25);
+    --text: #e8e8f0;
+    --text-muted: #7a7a9a;
+    --text-dim: #3a3a5a;
+    --jp-color: #4a3fa0;
+    --green: #34d399;
+    --red: #f87171;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(124,106,247,0.5);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: all 0.12s ease;
+  }
+  body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 18px; height: 18px; }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 2.5rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    width: 38px; height: 38px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .nav-logo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+  }
+  .nav-logo:hover { box-shadow: 0 0 24px var(--accent-glow); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    font-family: 'Space Mono', monospace;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 6vw 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(124,106,247,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,106,247,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 0%, transparent 100%);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(124,106,247,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid rgba(124,106,247,0.3);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    color: var(--accent2);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 1.8rem;
+    background: rgba(124,106,247,0.06);
+    width: fit-content;
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  h1.hero-name {
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .hero-tagline {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 0.6rem;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .hero-sub {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    padding: 0.75rem 1.8rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    cursor: none;
+    text-decoration: none;
+    transition: box-shadow 0.3s, transform 0.2s;
+    letter-spacing: 0.05em;
+  }
+  .btn-primary:hover {
+    box-shadow: 0 0 30px var(--accent-glow);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    padding: 0.75rem 1.8rem;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82rem;
+    cursor: none;
+    text-decoration: none;
+    transition: border-color 0.3s, color 0.3s;
+    letter-spacing: 0.05em;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--text); }
+
+  /* scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+    100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 7rem 6vw;
+    position: relative;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 0.8rem;
+  }
+
+  h2.section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 3rem;
+  }
+
+  /* ── DECRYPT ANIMATION ── */
+  .decrypt {
+    display: inline-block;
+    position: relative;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--bg2);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-text p {
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+  }
+  .about-text p strong { color: var(--text); }
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--border);
+  }
+  .stat-box {
+    background: var(--bg3);
+    padding: 1.8rem;
+    transition: background 0.3s;
+  }
+  .stat-box:hover { background: rgba(124,106,247,0.06); }
+  .stat-num {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent2);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+  .skill-card:hover {
+    border-color: rgba(124,106,247,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  }
+  .skill-card-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 1rem;
+  }
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tag {
+    padding: 0.3rem 0.7rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    transition: all 0.2s;
+  }
+  .tag:hover {
+    background: rgba(124,106,247,0.1);
+    border-color: rgba(124,106,247,0.3);
+    color: var(--accent2);
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--bg2); }
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+  .timeline-item {
+    position: relative;
+    padding: 0 0 3.5rem 2.5rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 6px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+  .timeline-meta {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+  .timeline-role {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .timeline-company {
+    font-size: 0.9rem;
+    color: var(--accent2);
+    margin-bottom: 1rem;
+    font-family: 'Space Mono', monospace;
+  }
+  .timeline-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .timeline-bullets li {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .timeline-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+    top: 0.2rem;
+  }
+  .tech-stack-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+  .tech-chip {
+    padding: 0.2rem 0.6rem;
+    background: rgba(124,106,247,0.08);
+    border: 1px solid rgba(124,106,247,0.2);
+    border-radius: 4px;
+    font-size: 0.68rem;
+    color: var(--accent2);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--bg); }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2rem;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .project-card:hover {
+    border-color: rgba(124,106,247,0.35);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .project-number {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.1em;
+  }
+  .project-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .project-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    flex: 1;
+  }
+  .project-section-label {
+    font-size: 0.65rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .project-impact {
+    font-size: 0.8rem;
+    color: var(--green);
+    font-family: 'Space Mono', monospace;
+    line-height: 1.6;
+  }
+
+  /* ── CERTIFICATIONS ── */
+  #certifications { background: var(--bg2); }
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+  .cert-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.6rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .cert-card:hover {
+    border-color: rgba(124,106,247,0.3);
+    transform: translateY(-3px);
+  }
+  .cert-icon {
+    width: 40px; height: 40px;
+    background: rgba(124,106,247,0.1);
+    border: 1px solid rgba(124,106,247,0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .cert-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    line-height: 1.4;
+  }
+  .cert-issuer {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--bg);
+    text-align: center;
+  }
+  .contact-inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .contact-inner p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    transition: all 0.3s;
+    letter-spacing: 0.04em;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent2);
+    background: rgba(124,106,247,0.06);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 1.5rem 6vw;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 5vw; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    h1.hero-name { font-size: 2.8rem; }
+    #hero { padding: 7rem 5vw 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">D</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-badge">
+    <span class="dot"></span>
+    <span>Open to opportunities in Japan</span>
+  </div>
+
+  <h1 class="hero-name">
+    <span class="decrypt" data-text="Dhruv Mehta">Dhruv Mehta</span>
+  </h1>
+
+  <p class="hero-tagline">AI / Data / Cloud Engineer</p>
+  <p class="hero-sub">AIエンジニア &nbsp;·&nbsp; データエンジニア &nbsp;·&nbsp; クラウドエンジニア</p>
+
+  <p style="max-width:560px; color: var(--text-muted); font-size:0.9rem; line-height:1.8; margin-bottom:2.5rem;">
+    Building real-world systems at the intersection of LLMs, data pipelines, and cloud.
+    Currently based in <strong style="color:var(--text)">Japan</strong> — preparing for JLPT N3.
+  </p>
+
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary">Get in Touch</a>
+    <a href="#experience" class="btn-ghost">View Experience</a>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">01 / About</p>
+  <h2 class="section-title decrypt" data-text="About Me">About Me</h2>
+  <div class="about-grid fade-in">
+    <div class="about-text">
+      <p>I work at the intersection of <strong>AI, data, and cloud</strong>, focusing on building practical, real-world solutions. With ~1 year of hands-on experience developing systems involving LLMs, data pipelines, OCR automation, and cloud platforms like AWS, Azure, and Databricks.</p>
+      <p>My work has included building <strong>AI-driven capacity planning systems</strong>, OCR-based evaluation tools, and implementing data governance solutions using Microsoft Purview.</p>
+      <p>Currently based in <strong>Japan</strong>, I've gained experience working in a Japanese professional environment — adapting to structured workflows, clear communication standards, and collaborative team practices. Preparing for JLPT N3.</p>
+      <p>I'm particularly interested in roles across AI, Data, and Cloud where I can contribute to solving real-world problems while continuing to grow technically and professionally.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box">
+        <div class="stat-num">~1yr</div>
+        <div class="stat-label">Professional Experience</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Cloud Platforms</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">N3</div>
+        <div class="stat-label">JLPT Target</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">JP</div>
+        <div class="stat-label">Based in Japan</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">02 / Skills</p>
+  <h2 class="section-title decrypt" data-text="Technical Skills">Technical Skills</h2>
+  <div class="skills-grid fade-in">
+    <div class="skill-card">
+      <div class="skill-card-title">AI / ML</div>
+      <div class="skill-tags">
+        <span class="tag">LLMs</span>
+        <span class="tag">OCR</span>
+        <span class="tag">Prophet</span>
+        <span class="tag">Time Series</span>
+        <span class="tag">Forecasting</span>
+        <span class="tag">NLP</span>
+        <span class="tag">Streamlit</span>
+        <span class="tag">FastAPI</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Data Engineering</div>
+      <div class="skill-tags">
+        <span class="tag">PySpark</span>
+        <span class="tag">Databricks</span>
+        <span class="tag">Azure Data Factory</span>
+        <span class="tag">ETL Pipelines</span>
+        <span class="tag">Microsoft Purview</span>
+        <span class="tag">Data Governance</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Cloud</div>
+      <div class="skill-tags">
+        <span class="tag">AWS</span>
+        <span class="tag">Azure</span>
+        <span class="tag">AWS OpenSearch</span>
+        <span class="tag">Cloud Storage</span>
+        <span class="tag">Serverless</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Monitoring & Tools</div>
+      <div class="skill-tags">
+        <span class="tag">Grafana</span>
+        <span class="tag">Tesseract</span>
+        <span class="tag">Streamlit</span>
+        <span class="tag">Git</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">Python</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Languages</div>
+      <div class="skill-tags">
+        <span class="tag">Python</span>
+        <span class="tag">SQL</span>
+        <span class="tag">HTML / CSS</span>
+        <span class="tag">Japanese (N3)</span>
+        <span class="tag">English</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Soft Skills</div>
+      <div class="skill-tags">
+        <span class="tag">Japanese Business Culture</span>
+        <span class="tag">Cross-cultural Collab</span>
+        <span class="tag">Documentation</span>
+        <span class="tag">Structured Reporting</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">03 / Experience</p>
+  <h2 class="section-title decrypt" data-text="Work Experience">Work Experience</h2>
+  <div class="timeline fade-in">
+
+    <div class="timeline-item">
+      <div class="timeline-meta">Jan 2026 — Apr 2026 · Aichi, Japan</div>
+      <div class="timeline-role">Associate Software Engineer</div>
+      <div class="timeline-company">株式会社マップクエスト</div>
+      <ul class="timeline-bullets">
+        <li>Engaged with existing systems to analyze product architecture and support incremental feature improvements and issue resolution.</li>
+        <li>Contributed to development workflows through documentation, code understanding, and structured reporting practices.</li>
+        <li>Collaborated within team environments following Japanese business communication standards and review processes.</li>
+        <li>Built a disciplined and detail-oriented approach to work, emphasizing clarity, ownership, and continuous improvement.</li>
+        <li>Developed strong documentation skills, including preparing clear technical materials in both English and Japanese.</li>
+      </ul>
+      <div class="tech-stack-row">
+        <span class="tech-chip">Japanese Business</span>
+        <span class="tech-chip">Documentation</span>
+        <span class="tech-chip">System Analysis</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-meta">Sep 2024 — Aug 2025 · Bengaluru, India</div>
+      <div class="timeline-role">AI, Data & Cloud Engineer</div>
+      <div class="timeline-company">Unisys</div>
+      <ul class="timeline-bullets">
+        <li>Built an AI-driven capacity planning system using PySpark, Databricks, and Prophet for forecasting and optimization.</li>
+        <li>Developed an OCR + LLM-based evaluation system using FastAPI, Tesseract, and Streamlit for automated scoring and feedback.</li>
+        <li>Implemented data governance solutions using Microsoft Purview, including glossary management, metadata classification, and API-based automation.</li>
+        <li>Built and managed data pipelines using Azure Data Factory and cloud storage systems for large-scale data processing.</li>
+        <li>Performed AWS OpenSearch cost analysis and deployment planning for scalable architectures.</li>
+        <li>Created dashboards and monitoring systems using Grafana and Streamlit to support data-driven decision making.</li>
+      </ul>
+      <div class="tech-stack-row">
+        <span class="tech-chip">PySpark</span>
+        <span class="tech-chip">Databricks</span>
+        <span class="tech-chip">Prophet</span>
+        <span class="tech-chip">FastAPI</span>
+        <span class="tech-chip">Tesseract OCR</span>
+        <span class="tech-chip">LLMs</span>
+        <span class="tech-chip">Microsoft Purview</span>
+        <span class="tech-chip">Azure Data Factory</span>
+        <span class="tech-chip">AWS OpenSearch</span>
+        <span class="tech-chip">Grafana</span>
+        <span class="tech-chip">Streamlit</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-meta">Oct 2023 — Nov 2023 · Bengaluru, India</div>
+      <div class="timeline-role">Web Developer Intern</div>
+      <div class="timeline-company">VaultofCodes</div>
+      <ul class="timeline-bullets">
+        <li>Completed a four-week web development internship, working on creating responsive registration forms and debugging code errors.</li>
+        <li>Sharpened skills in HTML, CSS, and web development, gaining deeper understanding of front-end development practices.</li>
+      </ul>
+      <div class="tech-stack-row">
+        <span class="tech-chip">HTML</span>
+        <span class="tech-chip">CSS</span>
+        <span class="tech-chip">Front-end</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">04 / Projects</p>
+  <h2 class="section-title decrypt" data-text="Featured Projects">Featured Projects</h2>
+  <div class="projects-grid fade-in">
+
+    <div class="project-card">
+      <div class="project-number">01</div>
+      <div class="project-title decrypt" data-text="AI-Driven Capacity Planning System">AI-Driven Capacity Planning System</div>
+      <div class="project-section-label">Problem</div>
+      <div class="project-desc">Manual capacity planning is time-intensive and reactive, leading to resource bottlenecks and inefficiencies in enterprise environments.</div>
+      <div class="project-section-label">Solution</div>
+      <div class="project-desc">Built a forecasting and optimization system using PySpark, Databricks, and Facebook's Prophet model to predict demand and automate resource planning decisions.</div>
+      <div class="project-section-label">Impact</div>
+      <div class="project-impact">✓ Automated demand forecasting at scale<br>✓ Reduced manual planning effort significantly<br>✓ Enabled proactive resource allocation</div>
+      <div class="tech-stack-row">
+        <span class="tech-chip">PySpark</span><span class="tech-chip">Databricks</span><span class="tech-chip">Prophet</span><span class="tech-chip">Azure</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">02</div>
+      <div class="project-title decrypt" data-text="OCR + LLM Evaluation System">OCR + LLM Evaluation System</div>
+      <div class="project-section-label">Problem</div>
+      <div class="project-desc">Manual scoring and feedback for document-based evaluations is slow, inconsistent, and doesn't scale across large volumes of submissions.</div>
+      <div class="project-section-label">Solution</div>
+      <div class="project-desc">Developed an automated evaluation pipeline combining Tesseract OCR for document extraction with LLM-based analysis, wrapped in a FastAPI backend and Streamlit UI for real-time feedback.</div>
+      <div class="project-section-label">Impact</div>
+      <div class="project-impact">✓ Automated end-to-end scoring pipeline<br>✓ Consistent, objective feedback at scale<br>✓ Reduced evaluation turnaround time</div>
+      <div class="tech-stack-row">
+        <span class="tech-chip">Tesseract</span><span class="tech-chip">FastAPI</span><span class="tech-chip">LLMs</span><span class="tech-chip">Streamlit</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-number">03</div>
+      <div class="project-title decrypt" data-text="Data Governance with Microsoft Purview">Data Governance with Microsoft Purview</div>
+      <div class="project-section-label">Problem</div>
+      <div class="project-desc">Large enterprises struggle with inconsistent metadata, ungoverned data assets, and lack of visibility into data lineage and classification.</div>
+      <div class="project-section-label">Solution</div>
+      <div class="project-desc">Implemented an end-to-end data governance solution using Microsoft Purview, automating glossary management, metadata classification, and governance workflows via API-based automation.</div>
+      <div class="project-section-label">Impact</div>
+      <div class="project-impact">✓ Standardized metadata across data assets<br>✓ Automated compliance classification<br>✓ Improved data discoverability</div>
+      <div class="tech-stack-row">
+        <span class="tech-chip">Microsoft Purview</span><span class="tech-chip">Azure</span><span class="tech-chip">Python</span><span class="tech-chip">REST APIs</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <p class="section-label">05 / Certifications</p>
+  <h2 class="section-title decrypt" data-text="Certifications">Certifications</h2>
+  <div class="certs-grid fade-in">
+    <div class="cert-card">
+      <div class="cert-icon">🤖</div>
+      <div>
+        <div class="cert-title">Artificial Intelligence Fundamentals</div>
+        <div class="cert-issuer">IBM / Industry Certification</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">☁️</div>
+      <div>
+        <div class="cert-title">Google Cloud Digital Leader – Digital Transformation with the Cloud</div>
+        <div class="cert-issuer">Google Cloud</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">⚙️</div>
+      <div>
+        <div class="cert-title">AWS DevOps Engineer Professional – Course Completion</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🇯🇵</div>
+      <div>
+        <div class="cert-title">JLPT N3 (In Progress)</div>
+        <div class="cert-issuer">Japanese Language Proficiency Test</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">06 / Contact</p>
+  <div class="contact-inner">
+    <h2 class="section-title decrypt" data-text="Get In Touch">Get In Touch</h2>
+    <p>
+      I'm currently open to AI, Data, and Cloud roles — especially in Japan.
+      Whether you have a project, an opportunity, or just want to connect, feel free to reach out.
+      <br><br>
+      <span style="font-family:'Noto Sans JP',sans-serif; font-size:0.85rem; color:var(--text-dim)">
+        お気軽にご連絡ください。
+      </span>
+    </p>
+    <div class="contact-links">
+      <a href="mailto:mehtadhruv203@gmail.com" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+        mehtadhruv203@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/dhruvmehta-316583262" target="_blank" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="tel:07094442193" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+        070-9444-2193
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Dhruv Mehta</span>
+  <span style="font-family:'Noto Sans JP',sans-serif;">メヘタ・ドゥルーブ</span>
+</footer>
+
+<script>
+// ── CURSOR ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.15;
+  ry += (my - ry) * 0.15;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// ── JAPANESE DECRYPT ──
+const JP_CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン零一二三四五六七八九';
+function randomJP() { return JP_CHARS[Math.floor(Math.random() * JP_CHARS.length)]; }
+
+function decryptText(el, finalText, duration = 1000) {
+  const len = finalText.length;
+  const start = performance.now();
+  let frame;
+  function step(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const revealedCount = Math.floor(progress * len);
+    let display = '';
+    for (let i = 0; i < len; i++) {
+      if (finalText[i] === ' ') { display += ' '; continue; }
+      if (i < revealedCount) {
+        display += `<span style="color:var(--text)">${finalText[i]}</span>`;
+      } else {
+        display += `<span style="color:var(--jp-color);font-family:'Noto Sans JP',sans-serif;">${randomJP()}</span>`;
+      }
+    }
+    el.innerHTML = display;
+    if (progress < 1) { frame = requestAnimationFrame(step); }
+    else { el.textContent = finalText; }
+  }
+  cancelAnimationFrame(frame);
+  frame = requestAnimationFrame(step);
+}
+
+// Run on hover
+document.querySelectorAll('.decrypt').forEach(el => {
+  const original = el.getAttribute('data-text') || el.textContent;
+  el.setAttribute('data-text', original);
+  el.style.cursor = 'default';
+  // Auto-run on section headings when they come into view
+  el._decryptDone = false;
+  el.addEventListener('mouseenter', () => {
+    decryptText(el, original, 900);
+  });
+});
+
+// ── INTERSECTION OBSERVER for auto-decrypt on section titles + fade-in ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      if (el.classList.contains('fade-in')) {
+        el.classList.add('visible');
+      }
+      if (el.classList.contains('decrypt') && !el._decryptDone) {
+        el._decryptDone = true;
+        setTimeout(() => decryptText(el, el.getAttribute('data-text'), 1200), 200);
+      }
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.fade-in, .decrypt').forEach(el => observer.observe(el));
+
+// Also trigger hero name on load
+window.addEventListener('load', () => {
+  const heroName = document.querySelector('h1.hero-name .decrypt');
+  if (heroName) setTimeout(() => decryptText(heroName, heroName.getAttribute('data-text'), 1400), 400);
+});
+</script>
+</body>
+</html>
